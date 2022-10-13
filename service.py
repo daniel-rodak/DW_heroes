@@ -12,16 +12,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-
-# The ID and range of a sample spreadsheet.
-SPREADSHEET_ID = '1-CYBimLnJxzrGu18oNhqkwMTH49Y-BTuvbwRVHYz45k'
-REF_DESCS_RANGE_NAME = 'AE_S8_Raw!A1:F48'
-DW_DESCS_RANGE_NAME = 'AE_S8_Raw!G1:BX48'
-DW_DESCS_WRITE_RANGE_NAME = 'AE_S8!G2:BX48'
-COSTS_MIN_WRITE_RANGE_NAME = 'AE_Koszty!A3:H282'
-COSTS_OPT_WRITE_RANGE_NAME = 'AE_Koszty!I3:N282'
+from config import *
 
 
 def connect():
@@ -121,15 +112,31 @@ def get_costs_frames(heroes, dw_descs):
     opt_costs = hp.get_costs(dw_descs, heroes, cost_type = 'Optimum')
     return min_costs, opt_costs
 
+def get_leaderboard(status_df, ref_descs):
+    ret = (
+        status_df
+        .loc[ref_descs.loc[ref_descs['Priorytet'].astype(int)<4].index, :]
+        .transpose()
+        .assign(ile_dup=lambda df: df.apply(lambda x: np.sum(x=='Dupa'), axis=1))
+        .assign(ile_min=lambda df: df.apply(lambda x: np.sum(x=='Minimum'), axis=1))
+        .assign(ile_opt=lambda df: df.apply(lambda x: np.sum(x=='Optimum'), axis=1))
+        .assign(ile_whl=lambda df: df.apply(lambda x: np.sum(x=='Whale'), axis=1))
+        .iloc[:,-4:]
+        .sort_values(['ile_dup', 'ile_min', 'ile_opt', 'ile_whl'])
+    )
+    return ret
+
 def main():
     heroes, ref_descs = get_heroes()
     dw_descs = get_dw_descs(ref_descs)
     status_df = get_status(heroes, dw_descs)
     min_costs, opt_costs = get_costs_frames(heroes, dw_descs)
+    leaderboard = get_leaderboard(status_df, ref_descs)
 
     update_values(SPREADSHEET_ID, DW_DESCS_WRITE_RANGE_NAME, "RAW", status_df.to_numpy().tolist())
     update_values(SPREADSHEET_ID, COSTS_MIN_WRITE_RANGE_NAME, "RAW", min_costs.to_numpy().tolist())
     update_values(SPREADSHEET_ID, COSTS_OPT_WRITE_RANGE_NAME, "RAW", opt_costs.iloc[:, 2:].to_numpy().tolist())
+    update_values(SPREADSHEET_ID, LEADERBOARD_RANGE_NAME, "RAW", leaderboard.reset_index().to_numpy().tolist())
 
 
 if __name__ == '__main__':
