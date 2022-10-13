@@ -2,6 +2,7 @@
 #### Name of GitHub Actions workflow ################
 #####################################################
 name: DW magic for excel
+run-name: ${{ github.actor }} is testing out GitHub Actions 🎉
 
 #####################################################
 #### Controls when the workflow will run ############
