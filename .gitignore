@@ -18,7 +18,6 @@
 /credentials.json
 /dw_heroes.csv
 /dw_heroes_v0.csv
-/engr.csv
 /heroes.csv
 /heroes_v0.csv
 /main.py
@@ -26,5 +25,4 @@
 /pybt.py
 /quickstart.py
 /ranking.py
-/sig.csv
 /token.json
