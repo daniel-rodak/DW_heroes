@@ -1,0 +1,44 @@
+#####################################################
+#### Name of GitHub Actions workflow ################
+#####################################################
+name: DW magic for excel
+run-name: ${{ github.actor }} is testing out GitHub Actions 🎉
+
+#####################################################
+#### Controls when the workflow will run ############
+#####################################################
+on:
+  # Triggers the workflow every minute
+  schedule:
+    - cron: "* * * * *"
+
+#####################################################
+#### A workflow run is made up of one or more #######
+#### jobs that can run sequentially or in parallel ##
+#####################################################
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.5'
+
+      - name: Install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute python script
+        # env: 
+        #   SECRET: ${{ secrets.SECRET }}
+        run: python service.py
