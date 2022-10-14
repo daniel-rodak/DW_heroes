@@ -39,6 +39,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Execute python script
-        # env: 
-        #   SECRET: ${{ secrets.SECRET }}
+        env: 
+          PROD: 1
+          TOKEN: ${{ secrets.TOKEN }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: python service.py
