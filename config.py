@@ -15,7 +15,7 @@ LEADERBOARD_RANGE_NAME = 'Ranking_dup!A2:E71'
 
 token_conf = {
     "token": os.environ.get("TOKEN"),
-    "refresh_token": os.environ.get("REFESH_TOKEN"),
+    "refresh_token": os.environ.get("REFRESH_TOKEN"),
     "token_uri": "https://oauth2.googleapis.com/token", 
     "client_id": os.environ.get("CLIENT_ID"),
     "client_secret": os.environ.get("CLIENT_SECRET"),
