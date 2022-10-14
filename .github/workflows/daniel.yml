@@ -1,0 +1,44 @@
+#####################################################
+#### Name of GitHub Actions workflow ################
+#####################################################
+name: Danielowy push
+run-name: Daanielowy push 🍏
+
+#####################################################
+#### Controls when the workflow will run ############
+#####################################################
+on: [push]
+
+#####################################################
+#### A workflow run is made up of one or more #######
+#### jobs that can run sequentially or in parallel ##
+#####################################################
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.5'
+
+      - name: Install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Execute python script
+        env: 
+          PROD: 1
+          TOKEN: ${{ secrets.TOKEN }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        run: python service.py
