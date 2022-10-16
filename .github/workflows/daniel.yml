@@ -34,11 +34,20 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Execute python script
+      - name: Execute python script for DW
         env: 
-          PROD: 1
           TOKEN: ${{ secrets.TOKEN }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          SPREADSHEET_ID: ${{ secrets.DW_SHEET_ID }}
+        run: python service.py
+
+      - name: Execute python script for P4F
+        env: 
+          TOKEN: ${{ secrets.TOKEN }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          SPREADSHEET_ID: ${{ secrets.P4F_SHEET_ID }}
         run: python service.py

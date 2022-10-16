@@ -1,11 +1,10 @@
-import json
 import os
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
-SPREADSHEET_ID = os.environ.get('SPREADSHEET_ID')
+SPREADSHEET_ID = os.environ.get("SPREADSHEET_ID")
 REF_DESCS_RANGE_NAME = 'AE_S8_Raw!A1:F50'
 DW_DESCS_RANGE_NAME = 'AE_S8_Raw!G1:BX50'
 DW_DESCS_WRITE_RANGE_NAME = 'AE_S8!G2:BX50'
