@@ -51,3 +51,12 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           SPREADSHEET_ID: ${{ secrets.P4F_SHEET_ID }}
         run: python service.py
+
+      - name: Execute python script for DW Recruit
+        env: 
+          TOKEN: ${{ secrets.TOKEN }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          SPREADSHEET_ID: ${{ secrets.DW_RECRUIT_SHEET_ID }}
+        run: python service.py
