@@ -137,7 +137,17 @@ def main():
         write_frame = dmg_frame.merge(reset_point_frame, on='Nick')
         write_frame.columns = [NAME_COL, 'Mean Damage', 'Damage deviation', 'Tests count', 'Has enough data', 'Reset point']
         write_frame = write_frame.loc[:,[NAME_COL, 'Reset point', 'Mean Damage', 'Damage deviation', 'Has enough data', 'Tests count']]
-        gs.update_values(SSID, f"{s}!M2:R{len(write_frame)+2}", "RAW", write_frame.sort_values(NAME_COL).to_numpy().tolist())
+        gs.update_values(
+            SSID,
+            f"{s}!M2:R{len(write_frame)+2}",
+            "RAW",
+            (
+                write_frame
+                .sort_values(NAME_COL, key=lambda col: col.str.lower())
+                .to_numpy()
+                .tolist()
+            )
+        )
 
 
 if __name__ == '__main__':
